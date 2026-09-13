@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255, 120, 200, 0.25), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(150, 100, 255, 0.25), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(255, 80, 180, 0.2), transparent 40%),
+        linear-gradient(135deg, #14091f, #2b0d3b, #120821);
+
+    color: white;
+}
+
+/* Background glow */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    background: radial-gradient(
+        circle,
+        rgba(255,255,255,0.07),
+        transparent 55%
+    );
+    animation: rotateGlow 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes rotateGlow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Stars */
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    color: rgba(255,255,255,0.85);
+    animation: twinkle 2s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    from {
+        opacity: 0.15;
+        transform: scale(0.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* Glowing orbs */
+.orb {
+    position: fixed;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.orb1 {
+    background: #ff4db8;
+    left: -100px;
+    top: 30%;
+}
+
+.orb2 {
+    background: #8066ff;
+    right: -100px;
+    bottom: 5%;
+}
+
+/* Balloons */
+.balloon {
+    position: fixed;
+    font-size: 55px;
+    z-index: 1;
+    opacity: 0.75;
+    animation: balloonFloat 9s ease-in-out infinite;
+}
+
+.b1 {
+    left: 5%;
+    bottom: -80px;
+}
+
+.b2 {
+    right: 6%;
+    bottom: -80px;
+    animation-delay: 3s;
+}
+
+.b3 {
+    left: 14%;
+    top: 8%;
+    font-size: 38px;
+    animation-delay: 1.5s;
+}
+
+.b4 {
+    right: 14%;
+    top: 12%;
+    font-size: 42px;
+    animation-delay: 4s;
+}
+
+@keyframes balloonFloat {
+
+    0% {
+        transform: translateY(100px) rotate(-6deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(6deg);
+    }
+
+    100% {
+        transform: translateY(-120vh) rotate(-6deg);
+    }
+}
+
+/* Main container */
+.container {
+    position: relative;
+    z-index: 5;
+
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+}
+
+/* Glass card */
+.card {
+    width: min(500px, 92vw);
+
+    padding: 55px 45px;
+
+    border-radius: 35px;
+
+    background: rgba(255,255,255,0.075);
+
+    border: 1px solid rgba(255,255,255,0.18);
+
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+
+    box-shadow:
+        0 35px 100px rgba(0,0,0,0.5),
+        inset 0 1px 1px rgba(255,255,255,0.18);
+
+    animation: cardAppear 1s cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes cardAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Cake */
+.cake {
+    text-align: center;
+
+    font-size: 72px;
+
+    margin-bottom: 30px;
+
+    filter:
+        drop-shadow(0 10px 25px rgba(255,90,190,0.4));
+
+    animation: cakeFloat 3s ease-in-out infinite;
+}
+
+@keyframes cakeFloat {
+
+    0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+}
+
+/* Input */
+.input-wrapper {
+    position: relative;
+}
+
+input {
+    width: 100%;
+    height: 62px;
+
+    border-radius: 19px;
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    background: rgba(255,255,255,0.08);
+
+    color: white;
+
+    font-size: 17px;
+
+    text-align: center;
+
+    outline: none;
+
+    transition: 0.3s ease;
+
+    font-family: 'DM Sans', sans-serif;
+}
+
+input::placeholder {
+    color: rgba(255,255,255,0.75);
+}
+
+input:focus {
+    border-color: rgba(255,140,210,0.9);
+
+    background: rgba(255,255,255,0.12);
+
+    box-shadow:
+        0 0 0 4px rgba(255,100,190,0.1),
+        0 0 35px rgba(255,80,190,0.25);
+}
+
+/* Button */
+button {
+    margin-top: 18px;
+
+    width: 100%;
+    height: 62px;
+
+    border: none;
+
+    border-radius: 19px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff70bc,
+            #b16cff
+        );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    font-family: 'DM Sans', sans-serif;
+
+    box-shadow:
+        0 15px 35px rgba(220,80,180,0.3);
+
+    transition: 0.25s ease;
+
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 20px 45px rgba(220,80,180,0.45);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+/* Button shine */
+button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.35),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition: 0.7s;
+}
+
+button:hover::before {
+    left: 140%;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .card {
+        padding: 45px 25px;
+        border-radius: 28px;
+    }
+
+    .cake {
+        font-size: 62px;
+    }
+
+    .balloon {
+        font-size: 40px;
+    }
+
+    input,
+    button {
+        height: 58px;
+    }
+}
+
+/* Shake animation */
+@keyframes shake {
+
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-8px);
+    }
+
+    75% {
+        transform: translateX(8px);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Background glow -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- Balloons -->
+<div class="balloon b1">🎈</div>
+<div class="balloon b2">🎈</div>
+<div class="balloon b3">🎈</div>
+<div class="balloon b4">🎈</div>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="cake">
+            🎂
+        </div>
+
+        <div class="input-wrapper">
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter Your Name"
+                autocomplete="off"
+            >
+
+        </div>
+
+        <button onclick="startBirthday()">
+            Enter Your Name
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* Create stars */
+
+const stars = document.getElementById("stars");
+
+for (let i = 0; i < 55; i++) {
+
+    const star = document.createElement("div");
+
+    star.className = "star";
+
+    star.innerHTML =
+        Math.random() > 0.5 ? "✦" : "·";
+
+    star.style.left =
+        Math.random() * 100 + "%";
+
+    star.style.top =
+        Math.random() * 100 + "%";
+
+    star.style.fontSize =
+        (Math.random() * 12 + 5) + "px";
+
+    star.style.animationDelay =
+        Math.random() * 3 + "s";
+
+    stars.appendChild(star);
+}
+
+
+/* Start */
+
+function startBirthday() {
+
+    const input =
+        document.getElementById("name");
+
+    const name =
+        input.value.trim();
+
+    if (!name) {
+
+        input.style.animation =
+            "shake 0.4s";
+
+        setTimeout(() => {
+
+            input.style.animation = "";
+
+        }, 400);
+
+        input.focus();
+
+        return;
+    }
+
+    localStorage.setItem(
+        "birthdayName",
+        name
+    );
+
+    /*
+       Next screen will be connected here.
+    */
+
+}
+
+</script>
+
+</body>
+</html>
